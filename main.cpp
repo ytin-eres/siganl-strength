@@ -18,5 +18,6 @@ int main(int argc, char** argv) {
 		fprintf(stderr, "couldn't open device %s(%s)\n", dev, errbuf);
 		return -1;
 	}
+    
     airodump(handle);
 }

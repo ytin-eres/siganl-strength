@@ -1,5 +1,7 @@
 #include <string>
 #include <iostream>
+#include <iomanip>
+
 #include "airodump.h"
 #include "radiotaphdr.h"
 #include "beaconhdr.h"
@@ -16,11 +18,10 @@ void usage(){
 
 void printInfo(){
     extern std::map <Mac, APInfo> APmap;
-
     system("clear");
-    std::cout << "BSSID\t\t" << "ESSID\t\t" << "Beacons\n"; 
+    std::cout << "BSSID\t\t\t" << "ESSID\t\t" << "Beacons" << std::endl;; 
     for(auto itr = APmap.begin();itr!=APmap.end();itr++){
-        std::cout<< itr->first.operator std::string() << '\t' << itr->second.ESSID << '\t' << itr->second.beaconNum << '\n'; 
+        std::cout<< itr->first.operator std::string() << '\t' << itr->second.ESSID << '\t' << itr->second.beaconNum << std::endl; 
     }
 }
 
@@ -38,25 +39,24 @@ void airodump(pcap_t* handle){
         if(pkt_handle(packet)) continue;
         printInfo();
     }
-
 }
 
 bool pkt_handle(const u_char* pkt){
     extern std::map <Mac, APInfo> APmap;
-
     PRadiotapHdr radiotapHdr = (PRadiotapHdr) pkt;
     PBeaconHdr beaconHdr = (PBeaconHdr) (pkt+radiotapHdr->len_);
     Mac bssid = beaconHdr->bssid();
     string essid;
     APInfo apInfo;
-
-    if(beaconHdr->type_ != BeaconHdr::Beacon) return true;
+    if(beaconHdr->subtype_ != BeaconHdr::Beacon) return true;
     auto itr = APmap.find(bssid);
     if(itr!=APmap.end()){
         itr->second.beaconNum++;
     }
     else{
-        essid = string((char*)beaconHdr->tag()->next(),beaconHdr->tag()->len_);
+        essid = string((char*)beaconHdr->tag()+2,beaconHdr->tag()->len_);
+        int essidLen = beaconHdr->tag()->len_;
+        if(essidLen<=0 || essidLen>16) essid = string("<length:" + std::to_string(essidLen) + ">");
         apInfo.ESSID = essid;
         apInfo.beaconNum = 1;
         APmap[bssid] = apInfo;

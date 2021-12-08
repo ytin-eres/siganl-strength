@@ -26,11 +26,6 @@ struct BeaconHdr : Dot11Hdr {
 	struct Tag {
 		uint8_t num_;
 		uint8_t len_;
-		Tag* next() {
-			char* res = (char*)this;
-			res += sizeof(Tag) + this->len_;
-			return PTag(res);
-		}
 	};
 	typedef Tag *PTag;
 	Tag* tag() {
@@ -38,22 +33,6 @@ struct BeaconHdr : Dot11Hdr {
 		p += sizeof(BeaconHdr);
 		return PTag(p);
 	}
-
-	// tagged parameter number
-	enum: uint8_t {
-		tagSsidParameterSet = 0,
-		tagSupportedRated = 1,
-		tagTrafficIndicationMap = 5
-	};
-
-	struct TrafficIndicationMap : Tag {
-		uint8_t count_;
-		uint8_t period_;
-		uint8_t control_;
-		uint8_t bitmap_;
-	};
-	typedef TrafficIndicationMap *PTrafficIndicationMap;
-
 };
 typedef BeaconHdr *PBeaconHdr;
 #pragma pack(pop)

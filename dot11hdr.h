@@ -8,7 +8,7 @@ struct Dot11Hdr {
 	uint8_t type_:2;
 	uint8_t subtype_:4;
 	uint8_t flags_;
-	uint8_t duration_;
+	uint16_t duration_;
 
 	uint8_t typeSubtype() { return type_ << 4 | subtype_; }
 
