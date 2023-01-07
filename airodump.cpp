@@ -24,12 +24,12 @@ void printInfo(){
     system("clear");
     std::cout << "BSSID\t\t\t" << "ESSID\t\t" << "Beacons" << std::endl;; 
     for(auto itr = APmap.begin();itr!=APmap.end();itr++){
-        std::cout<< itr->first.operator std::string() << '\t' << itr->second.ESSID << '\t' << itr->second.beaconNum << std::endl; 
+        std::cout<< itr->first.operator std::string() << '\t\t' << itr->second.ESSID << '\t\t' << itr->second.beaconNum << std::endl; 
     }
 
-    std::cout << "BSSID\t\t\t" << "ESSID\t\t" << "Beacons" << std::endl;; 
+    std::cout << "\n\nBSSID\t\t\t" << "ESSID\t\t" << "Beacons" << std::endl;; 
     for(auto itr = Probemap.begin();itr!=Probemap.end();itr++){
-        std::cout<< itr->first.operator std::string() << '\t' << itr->second.ESSID << '\t' << itr->second.beaconNum << std::endl; 
+        std::cout<< itr->first.operator std::string() << '\t\t' << itr->second.ESSID << '\t\t' << itr->second.beaconNum << std::endl; 
     }
 
 }
@@ -86,7 +86,7 @@ bool pkt_handle(const u_char* pkt){
             if(essidLen<=0 || essidLen>16) essid = string("<length:" + std::to_string(essidLen) + ">");
             apInfo.ESSID = essid;
             apInfo.beaconNum = 1;
-            ProbeRequest[bssid] = apInfo;
+            Probemap[bssid] = apInfo;
         } 
     }
 
