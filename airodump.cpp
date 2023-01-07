@@ -77,7 +77,7 @@ bool pkt_handle(const u_char* pkt){
 
     if(beaconHdr->subtype_ == BeaconHdr::ProbeRequest){
         auto itr = Probemap.find(bssid);
-        if(itr!=ProbeRequest.end()){
+        if(itr!=Probemap.end()){
             itr->second.beaconNum++;
         }
         else{
