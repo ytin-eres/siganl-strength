@@ -21,6 +21,7 @@ struct Dot11Hdr {
 
 	// typeSubtype
 	enum: uint8_t {
+		ProbeRequest = 0x04,
 		Beacon = 0x08,
 		QosNull = 0x2C,
 		Acknowledgement = 0x1D
