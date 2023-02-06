@@ -1,10 +1,10 @@
 CC = g++
 LDLIBS = -lpcap
 
-all: airodump
+all: signal_strength
 
-airodump: main.o mac.o airodump.o
+signal_strength: main.o mac.o signal_strength.o
 	$(CC) $^ -o $@ $(LDLIBS)
 
 clean:
-	@rm -f ./airodump *.o
+	@rm -f ./signal_strength *.o
